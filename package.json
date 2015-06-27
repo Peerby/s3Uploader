@@ -1,0 +1,28 @@
+{
+  "name": "s3Uploader",
+  "version": "0.0.1",
+  "description": "Direct client-side uploading of images to s3 buckets",
+  "main": "main.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Peerby/s3Uploader"
+  },
+  "keywords": [
+    "s3",
+    "amazon",
+    "buckets",
+    "uploader",
+    "uploading"
+  ],
+  "author": "Arco Mul <arco@peerby.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Peerby/s3Uploader/issues"
+  },
+  "homepage": "https://github.com/Peerby/s3Uploader",
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "underscore": "^1.8.3"
+  }
+}
