@@ -37,12 +37,43 @@
             _data.append("Content-Type", options.contenttype);
 
             // Add a hidden file input which can be triggered to open a file dialog
-            $('body').append('<input type="file" style="display: none;" />');
-            var _input = $('body').children().last();
+            $('body').append('<form><input type="file" style="display: none;" /></form>');
+            var _form = $('body').children().last();
+            var _input = _form.children().last();
             _input.change(function (e) {
                 var file = _input[0].files[0];
                 _options.fileAdded(file);
             });
+
+            var followUpOnHTML4Upload = function (iframe) {
+
+            }
+
+            var uploadUsingIE9 = function () {
+                var iframe = document.createElement("iframe");
+                iframe.src = "";
+                iframe.allowTransparancy = "true";
+                iframe.style.display = "none";
+                iframe.frameBorder = 0;
+                iframe.style.backgroundColor = "transparent";
+                iframe.onload = followUpOnHTML4Upload.bind(this, iframe);
+                iframe.name = "tmpFrameUpload"
+                this.appendChild(iframe);
+                _form.target = iframe.name;
+                _form.name = "uploadForm";
+                _form.acceptCharset = "UTF-8"
+
+                _form.prepend('<input type="hidden" name="key" value="' + options.key + '" />');
+                _form.prepend('<input type="hidden" name="AWSAccessKeyId" value="' + options.AWSAccessKeyId + '" />');
+                _form.prepend('<input type="hidden" name="acl" value="' + options.acl + '" />');
+                _form.prepend('<input type="hidden" name="policy" value="' + options.policy + '" />');
+                _form.prepend('<input type="hidden" name="signature" value="' + options.signature + '" />');
+                _form.prepend('<input type="hidden" name="Content-Type" value="' + options.contenttype + '" />');
+
+                return;
+
+                _form.submit();
+            }
 
             return {
 
@@ -86,6 +117,11 @@
                     }
                     if (_input[0].files.length == 0) {
                         return console.error('No files added to uploader');
+                    }
+
+                    if (true) {
+                        uploadUsingIE9();
+                        return;
                     }
 
                     var file = _input[0].files[0];
