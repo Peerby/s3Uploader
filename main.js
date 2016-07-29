@@ -34,7 +34,7 @@
             _data.append("acl", options.acl);
             _data.append("policy", options.policy);
             _data.append("signature", options.signature);
-            _data.append("Content-Type", options.contenttype);
+            _data.append("Content-Type", options.contenttype || options["Content-Type"]);
 
             // Add a hidden file input which can be triggered to open a file dialog
             $('body').append('<input type="file" style="display: none;" />');
