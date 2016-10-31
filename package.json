@@ -1,7 +1,7 @@
 {
   "name": "s3Uploader",
-  "version": "0.0.2",
-  "description": "Direct client-side uploading of images to s3 buckets",
+  "version": "1.0.0",
+  "description": "Direct client-side uploading of images to Amazone S3 buckets",
   "main": "main.js",
   "scripts": {},
   "repository": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Peerby/s3Uploader",
   "dependencies": {
-    "jquery": "^2.1.4",
-    "underscore": "^1.8.3"
+    "jquery": "2.1.4",
+    "underscore": "1.8.3"
   }
 }
