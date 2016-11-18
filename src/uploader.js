@@ -16,7 +16,7 @@ export default class S3Uploader {
     input.style = 'display:none';
     input.id = 's3upload';
     document.body.appendChild(input);
-    input.addEventListener('change', (e) => onChange(e));
+    input.addEventListener('change', (e) => options.onChange(e));
     this.input = input;
 
     this.upload = this.upload.bind(this);
