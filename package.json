@@ -2,8 +2,13 @@
   "name": "s3Uploader",
   "version": "1.0.1",
   "description": "Direct client-side uploading of images to Amazone S3 buckets",
-  "main": "main.js",
-  "scripts": {},
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "mocha",
+    "build": "babel src --out-dir dist",
+    "clean": "rm -rf dist/*",
+    "prepublish": "npm run clean && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Peerby/s3Uploader"
@@ -24,5 +29,14 @@
   "dependencies": {
     "jquery": "2.1.4",
     "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "canvas": "^1.6.2",
+    "expect": "^1.20.2",
+    "jsdom": "9.8.3",
+    "jsdom-global": "2.1.0",
+    "mocha": "^3.1.2"
   }
 }
