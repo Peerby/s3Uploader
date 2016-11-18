@@ -47,6 +47,25 @@ describe('S3Uploader', function () {
     done();
   });
 
+  it('should call onChange callback with file object', function(done) {
+    const spy = expect.createSpy();
+    const s3 = new S3Uploader({
+      key: '',
+      AWSAccessKeyId: '',
+      bucket: 'test',
+      acl: '',
+      policy: '',
+      signature:'',
+      'Content-Type': '',
+      onChange: spy,
+    });
+
+    const f = new File(['asdf'], 'filename');
+    s3.onChange({ target: { files: [f] } });
+    expect(spy).toHaveBeenCalledWith(f);
+    done();
+  });
+
   it('should resize', function(done) {
     const s3 = new S3Uploader({
       width: 2,

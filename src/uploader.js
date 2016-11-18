@@ -16,7 +16,7 @@ export default class S3Uploader {
     input.style = 'display:none';
     input.id = 's3upload';
     document.body.appendChild(input);
-    input.addEventListener('change', (e) => options.onChange(e));
+    input.addEventListener('change', (e) => this.onChange(e));
     this.input = input;
 
     this.upload = this.upload.bind(this);
@@ -44,14 +44,18 @@ export default class S3Uploader {
   }
 
   onChange(e) {
+    //const promise = new Promise(); // used for user defined callback
+    const onChange = this.options.onChange || function() {};
     const file = e.target.files[0];
     // When there is no width and height given, don't scale the image
     const {width, height} = this.options;
     if (!width || !height) {
       this.file = file;
+      onChange(file);
     } else {
       return this.resizeImage(file, width, height).then(file => {
         this.file = file;
+        onChange(file);
         return file;
       });
     }
