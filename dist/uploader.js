@@ -128,7 +128,7 @@ var S3Uploader = function () {
               newWidth = _this3.options.width;
             }
 
-            ctx.drawImage(image, -(imageWidth - width) / 2, -(imageHeight - height) / 2, imageWidth, imageHeight);
+            ctx.drawImage(image, -(newWidth - width) / 2, -(newHeight - height) / 2, newWidth, newHeight);
 
             // Convert the canvas to dataurl and blobfile to be send
             // to the client using this module. So that it can be used
