@@ -97,10 +97,10 @@ export default class S3Uploader {
 
           ctx.drawImage(
             image,
-            -(imageWidth - width) / 2,
-            -(imageHeight - height) / 2,
-            imageWidth,
-            imageHeight
+            -(newWidth - width) / 2,
+            -(newHeight - height) / 2,
+            newWidth,
+            newHeight
           );
 
           // Convert the canvas to dataurl and blobfile to be send
