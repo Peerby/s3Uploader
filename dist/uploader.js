@@ -10,6 +10,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var S3Uploader = function () {
   function S3Uploader(options) {
+    var _this = this;
+
     _classCallCheck(this, S3Uploader);
 
     this.options = options;
@@ -28,7 +30,7 @@ var S3Uploader = function () {
     input.id = 's3upload';
     document.body.appendChild(input);
     input.addEventListener('change', function (e) {
-      return onChange(e);
+      return _this.onChange(e);
     });
     this.input = input;
 
@@ -66,8 +68,10 @@ var S3Uploader = function () {
   }, {
     key: "onChange",
     value: function onChange(e) {
-      var _this = this;
+      var _this2 = this;
 
+      //const promise = new Promise(); // used for user defined callback
+      var onChange = this.options.onChange || function () {};
       var file = e.target.files[0];
       // When there is no width and height given, don't scale the image
       var _options2 = this.options,
@@ -76,9 +80,11 @@ var S3Uploader = function () {
 
       if (!width || !height) {
         this.file = file;
+        onChange(file);
       } else {
         return this.resizeImage(file, width, height).then(function (file) {
-          _this.file = file;
+          _this2.file = file;
+          onChange(file);
           return file;
         });
       }
@@ -97,7 +103,7 @@ var S3Uploader = function () {
   }, {
     key: "resizeImage",
     value: function resizeImage(file, width, height) {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
         var canvas = document.createElement('canvas');
@@ -106,7 +112,7 @@ var S3Uploader = function () {
         canvas.height = height;
         var ctx = canvas.getContext("2d");
 
-        _this2.fileToDataUrl(file).then(function (src) {
+        _this3.fileToDataUrl(file).then(function (src) {
           var image = new window.Image();
           image.onload = function () {
             var imageWidth = image.width;
@@ -119,7 +125,7 @@ var S3Uploader = function () {
               newHeight = height;
             } else {
               newHeight = width / imageWidth * imageHeight;
-              newWidth = _this2.options.width;
+              newWidth = _this3.options.width;
             }
 
             ctx.drawImage(image, -(imageWidth - width) / 2, -(imageHeight - height) / 2, imageWidth, imageHeight);
@@ -143,10 +149,10 @@ var S3Uploader = function () {
   }, {
     key: "toDataUrl",
     value: function toDataUrl(src) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve, reject) {
-        var file = _this3.input.files[0];
+        var file = _this4.input.files[0];
         var reader = new FileReader();
         reader.onload = function (e) {
           resolve(e.target.result);
