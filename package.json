@@ -2,7 +2,7 @@
   "name": "s3Uploader",
   "version": "1.0.1",
   "description": "Direct client-side uploading of images to Amazone S3 buckets",
-  "main": "dist/main.js",
+  "main": "dist/uploader.js",
   "scripts": {
     "test": "mocha",
     "build": "babel src --out-dir dist",
