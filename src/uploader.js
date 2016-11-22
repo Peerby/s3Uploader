@@ -4,7 +4,6 @@ export default class S3Uploader {
         this.options = options;
         // Initialize form data based on the given options
         this.data = new window.FormData();
-        this.data.append("key", options.key);
         this.data.append("AWSAccessKeyId", options.AWSAccessKeyId);
         this.data.append("acl", options.acl);
         this.data.append("policy", options.policy);
@@ -23,9 +22,11 @@ export default class S3Uploader {
         this.open = this.open.bind(this);
     }
 
-    upload() {
+    upload(newKey) {
+        const key = newKey || this.options.key;
         this.data.append("file", this.file);
-        const {key, bucket, success, error} = this.options;
+        this.data.append("key", key);
+        const {bucket, success, error} = this.options;
 
         const req = new window.XMLHttpRequest();
         req.open("POST", `https://${bucket}.s3.amazonaws.com/`, true);
