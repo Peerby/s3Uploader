@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -15,13 +15,6 @@ var S3Uploader = function () {
         _classCallCheck(this, S3Uploader);
 
         this.options = options;
-        // Initialize form data based on the given options
-        this.data = new window.FormData();
-        this.data.append("AWSAccessKeyId", options.AWSAccessKeyId);
-        this.data.append("acl", options.acl);
-        this.data.append("policy", options.policy);
-        this.data.append("signature", options.signature);
-        this.data.append("Content-Type", options.contenttype || options["Content-Type"]);
         // Add a hidden file input which can be triggered to open a file dialog
         var input = document.createElement('input');
         input.setAttribute('type', 'file');
@@ -38,11 +31,24 @@ var S3Uploader = function () {
     }
 
     _createClass(S3Uploader, [{
-        key: "upload",
+        key: 'getFormData',
+        value: function getFormData(key, file) {
+            var options = this.options;
+            var data = new window.FormData();
+            data.append("key", key);
+            data.append("AWSAccessKeyId", options.AWSAccessKeyId);
+            data.append("acl", options.acl);
+            data.append("policy", options.policy);
+            data.append("signature", options.signature);
+            data.append("Content-Type", options.contenttype || options["Content-Type"]);
+            data.append("file", file);
+            return data;
+        }
+    }, {
+        key: 'upload',
         value: function upload(newKey) {
             var key = newKey || this.options.key;
-            this.data.append("file", this.file);
-            this.data.append("key", key);
+            var data = this.getFormData(key, this.file);
             var _options = this.options,
                 bucket = _options.bucket,
                 success = _options.success,
@@ -50,23 +56,23 @@ var S3Uploader = function () {
 
 
             var req = new window.XMLHttpRequest();
-            req.open("POST", "https://" + bucket + ".s3.amazonaws.com/", true);
+            req.open("POST", 'https://' + bucket + '.s3.amazonaws.com/', true);
             req.onload = function (e) {
                 if (req.status >= 200 && req.status < 400) {
-                    success("https://" + bucket + ".s3.amazonaws.com/" + key);
+                    success('https://' + bucket + '.s3.amazonaws.com/' + key);
                 } else {
                     error(e);
                 }
             };
-            req.send(this.data);
+            req.send(data);
         }
     }, {
-        key: "open",
+        key: 'open',
         value: function open() {
             this.input.click();
         }
     }, {
-        key: "onChange",
+        key: 'onChange',
         value: function onChange(e) {
             var _this2 = this;
 
@@ -90,7 +96,7 @@ var S3Uploader = function () {
             }
         }
     }, {
-        key: "fileToDataUrl",
+        key: 'fileToDataUrl',
         value: function fileToDataUrl(file) {
             return new Promise(function (resolve, reject) {
                 var reader = new window.FileReader();
@@ -101,7 +107,7 @@ var S3Uploader = function () {
             });
         }
     }, {
-        key: "resizeImage",
+        key: 'resizeImage',
         value: function resizeImage(file, width, height) {
             var _this3 = this;
 
@@ -147,7 +153,7 @@ var S3Uploader = function () {
             });
         }
     }, {
-        key: "toDataUrl",
+        key: 'toDataUrl',
         value: function toDataUrl(src) {
             var _this4 = this;
 
