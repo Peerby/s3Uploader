@@ -2,13 +2,6 @@ export default class S3Uploader {
 
     constructor(options) {
         this.options = options;
-        // Initialize form data based on the given options
-        this.data = new window.FormData();
-        this.data.append("AWSAccessKeyId", options.AWSAccessKeyId);
-        this.data.append("acl", options.acl);
-        this.data.append("policy", options.policy);
-        this.data.append("signature", options.signature);
-        this.data.append("Content-Type", options.contenttype || options["Content-Type"]);
         // Add a hidden file input which can be triggered to open a file dialog
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
@@ -22,10 +15,22 @@ export default class S3Uploader {
         this.open = this.open.bind(this);
     }
 
+    getFormData(key, file) {
+        const options = this.options;
+        const data = new window.FormData();
+        data.append("key", key);
+        data.append("AWSAccessKeyId", options.AWSAccessKeyId);
+        data.append("acl", options.acl);
+        data.append("policy", options.policy);
+        data.append("signature", options.signature);
+        data.append("Content-Type", options.contenttype || options["Content-Type"]);
+        data.append("file", file);
+        return data;
+    }
+
     upload(newKey) {
         const key = newKey || this.options.key;
-        this.data.append("file", this.file);
-        this.data.append("key", key);
+        const data = this.getFormData(key, this.file);
         const {bucket, success, error} = this.options;
 
         const req = new window.XMLHttpRequest();
@@ -37,7 +42,7 @@ export default class S3Uploader {
                     error(e);
             }
         };
-        req.send(this.data);
+        req.send(data);
     }
 
     open() {
