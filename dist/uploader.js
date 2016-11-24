@@ -17,7 +17,6 @@ var S3Uploader = function () {
         this.options = options;
         // Initialize form data based on the given options
         this.data = new window.FormData();
-        this.data.append("key", options.key);
         this.data.append("AWSAccessKeyId", options.AWSAccessKeyId);
         this.data.append("acl", options.acl);
         this.data.append("policy", options.policy);
@@ -40,10 +39,11 @@ var S3Uploader = function () {
 
     _createClass(S3Uploader, [{
         key: "upload",
-        value: function upload() {
+        value: function upload(newKey) {
+            var key = newKey || this.options.key;
             this.data.append("file", this.file);
+            this.data.append("key", key);
             var _options = this.options,
-                key = _options.key,
                 bucket = _options.bucket,
                 success = _options.success,
                 error = _options.error;
