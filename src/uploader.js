@@ -43,10 +43,10 @@ export default class S3Uploader {
             }
         };
         if (this.options.onProgress) {
-            req.addEventListener('progress', e => {
+            req.upload.addEventListener('progress', e => {
                 const percentComplete = e.loaded / e.total;
                 this.options.onProgress(percentComplete);
-            });
+            }, false);
         }
         req.send(data);
     }
