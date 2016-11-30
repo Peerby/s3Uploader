@@ -39,9 +39,15 @@ export default class S3Uploader {
             if (req.status >= 200 && req.status < 400) {
                 success(`https://${bucket}.s3.amazonaws.com/${key}`);
             } else {
-                    error(e);
+                error(e);
             }
         };
+        if (this.options.onProgress) {
+            req.addEventListener('progress', e => {
+                const percentComplete = e.loaded / e.total;
+                this.options.onProgress(percentComplete);
+            });
+        }
         req.send(data);
     }
 
