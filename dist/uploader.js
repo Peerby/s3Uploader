@@ -67,10 +67,10 @@ var S3Uploader = function () {
                 }
             };
             if (this.options.onProgress) {
-                req.addEventListener('progress', function (e) {
+                req.upload.addEventListener('progress', function (e) {
                     var percentComplete = e.loaded / e.total;
                     _this2.options.onProgress(percentComplete);
-                });
+                }, false);
             }
             req.send(data);
         }
